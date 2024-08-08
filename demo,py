@@ -1,0 +1,26 @@
+from game import Board
+from main import load_agent
+from pathlib import Path
+#Update accordingly
+ngame, agent = load_agent(Path(r'C:\Users\divya\Downloads\2048-main\2048-main\tmp/nTupleNewrok_200games.pkl'))
+
+import time
+from IPython.display import display, clear_output
+
+b = Board()
+nstep = 0
+rgame = 0
+while len(b.empty_tiles()) !=0:
+    a = agent.best_action(b.board)
+    print(a)
+    rgame += b.act2(a)
+    future_r = agent.V(b.board)
+    nstep += 1
+    b.spawn_tile()
+    clear_output(wait=True)
+    #print('Agent expects to reach score: {:.0f}'.format(rgame + future_r))
+    print('Score: {}, Steps: {}, Max tile: {}.'.format(rgame, nstep, 2**max(b.board)))
+    print()
+    b.display()
+    time.sleep(0.1)
+print("Game Over")
